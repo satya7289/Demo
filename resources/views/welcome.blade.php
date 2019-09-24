@@ -4,10 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Demo</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
         <!-- Styles -->
         <style>
@@ -64,37 +66,48 @@
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
+    <script>
+        @if(Session::has('flash_message'))
+            @if(Session::get('flash_message')=="Detail Added Successfully")
+            alert(" {{Session::get('flash_message')}}")
             @endif
+        @endif
+    </script>
+
+        <div class="flex-center position-ref full-height">
 
             <div class="content">
-                <div class="title m-b-md">
-                    Laravel
+                <div >
+                @if(Session::has('flash_message'))
+                    {{Session::get('flash_message')}}
+                @endif
                 </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+                <form method="POST" action="/" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Name:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" name="name" id="name" type="text" placeholder="Enter Name" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" name="email" id="email" type="email" placeholder="Enter Email" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="pincode" class="col-sm-2 col-form-label">Pincode</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" name="pincode" id="pincode" type="number" placeholder="Enter Pincode" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </form>
             </div>
         </div>
     </body>
+
+
+
 </html>

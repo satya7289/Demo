@@ -11,6 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Http\Controllers\ATGController;
+
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
+Route::resource('/', 'ATGController');
