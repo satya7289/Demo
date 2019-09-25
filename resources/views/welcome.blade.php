@@ -98,7 +98,7 @@
                     <div class="form-group row">
                         <label for="email" class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-10">
-                            <input class="form-control" name="email" id="email" placeholder="Enter Email" aria-describedby="emailHelpText">
+                            <input class="form-control" name="email" type="email" id="email" placeholder="Enter Email" aria-describedby="emailHelpText">
                             @error('email')
                             <small id="emailHelpText" class="form-text text-muted">
                                 {{ $message }}
