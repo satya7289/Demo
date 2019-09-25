@@ -30,17 +30,18 @@ class ATGController extends Controller
         $detail->name = request('name');
         $detail->email = request('email');
         $detail->pinCode = request('pincode');
-        try{
-            $dublicate = Detail::where('name', $detail->name)
-                                ->orwhere('email',$detail->email)
-                                ->orwhere('pinCode',$detail->pinCode)
-                                ->firstOrFail();
-            return redirect('/')->with('flash_message', 'Detail already exits.');
-        }
-        catch (ModelNotFoundException $e) {
+        $message = '';
+        if(Detail::where('name', $detail->name)->first())
+            $message = 'Name Aready exits.';
+        elseif (Detail::where('email', $detail->email)->first())
+            $message = 'Email Already exits.';
+        elseif (Detail::where('pinCode', $detail->pinCode)->first())
+            $message = 'Pincode Aready exits.';
+        else{
             $detail->save();
-            return redirect('/')->with('flash_message', 'Detail Added Successfully');
+            $message = 'Detail Added Successfully';
         }
+        return redirect('/')->with('flash_message', $message);
 
     }
 

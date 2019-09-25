@@ -99,7 +99,10 @@
                     <div class="form-group row">
                         <label for="pincode" class="col-sm-2 col-form-label">Pincode</label>
                         <div class="col-sm-10">
-                            <input class="form-control" name="pincode" id="pincode" type="number" placeholder="Enter Pincode" required>
+                            <input class="form-control" name="pincode" id="pincode" min="100000" max="999999" type="number" placeholder="Enter Pincode" aria-describedby="pincodeHelpText" required >
+                            <small id="pincodeHelpText" class="form-text text-muted">
+                                Pincode must be 6 digit length, from 100000 to 999999.
+                            </small>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-success">Submit</button>
