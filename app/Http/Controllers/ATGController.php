@@ -24,7 +24,7 @@ class ATGController extends Controller
         $this->validate($request, [
             'name'=>'required|max:30',
             'email'=>'required|email',
-            'pincode'=>'required|size:6',
+            'pincode'=>'required|numeric',
         ]);
         $detail = new Detail();
         $detail->name = request('name');

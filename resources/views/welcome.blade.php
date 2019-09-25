@@ -87,7 +87,7 @@
                     <div class="form-group row">
                         <label for="name" class="col-sm-2 col-form-label">Name:</label>
                         <div class="col-sm-10">
-                            <input class="form-control" name="name" id="name" type="text" placeholder="Enter Name" aria-describedby="nameHelpText" required>
+                            <input class="form-control" name="name" id="name" type="text" placeholder="Enter Name" aria-describedby="nameHelpText">
                             @error('name')
                             <small id="nameHelpText" class="form-text text-muted">
                                 {{ $message }}
@@ -109,10 +109,14 @@
                     <div class="form-group row">
                         <label for="pincode" class="col-sm-2 col-form-label">Pincode</label>
                         <div class="col-sm-10">
-                            <input class="form-control" name="pincode" id="pincode" min="100000" max="999999" type="number" placeholder="Enter Pincode" aria-describedby="pincodeHelpText" required >
+                            <input class="form-control" name="pincode" id="pincode" min="100000" max="999999" type="number" placeholder="Enter Pincode" aria-describedby="pincodeHelpText" >
                             <small id="pincodeHelpText" class="form-text text-muted">
-                                Pincode must be 6 digit length, from 100000 to 999999.
+                                Pincode must be 6 digit length, from 100000 to 999999.<br>
+                                @error('pincode')
+                                  {{ $message }}
+                                 @enderror
                             </small>
+                           
                         </div>
                     </div>
                     <button type="submit" class="btn btn-success">Submit</button>
