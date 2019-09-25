@@ -82,18 +82,28 @@
                     {{Session::get('flash_message')}}
                 @endif
                 </div>
-                <form method="POST" action="/" enctype="multipart/form-data">
+                <form method="POST" action="/" enctype="multipart/form-data" class="needs-validation">
                     @csrf
                     <div class="form-group row">
                         <label for="name" class="col-sm-2 col-form-label">Name:</label>
                         <div class="col-sm-10">
-                            <input class="form-control" name="name" id="name" type="text" placeholder="Enter Name" required>
+                            <input class="form-control" name="name" id="name" type="text" placeholder="Enter Name" aria-describedby="nameHelpText" required>
+                            @error('name')
+                            <small id="nameHelpText" class="form-text text-muted">
+                                {{ $message }}
+                            </small>
+                            @enderror
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="email" class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-10">
-                            <input class="form-control" name="email" id="email" type="email" placeholder="Enter Email" required>
+                            <input class="form-control" name="email" id="email" placeholder="Enter Email" aria-describedby="emailHelpText">
+                            @error('email')
+                            <small id="emailHelpText" class="form-text text-muted">
+                                {{ $message }}
+                            </small>
+                            @enderror
                         </div>
                     </div>
                     <div class="form-group row">
