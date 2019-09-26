@@ -148,9 +148,9 @@
         }
         function nameValidate(e){
             var name = document.getElementById('name');
-            var patt = new RegExp("^[a-zA-Z][a-zA-Z0-9]*$");
+            var patt = new RegExp("^[a-zA-Z][a-zA-Z0-9 ]*$");
             var value = name.value;
-            if(value.toString().length>0 && patt.test(value))
+            if(value.toString().length>0 && value.toString().length<30 && patt.test(value))
             {
                 document.getElementById('nameHelpText').innerText=""
                 name.style.backgroundColor = "#00e673";
@@ -159,9 +159,12 @@
             }
             else{
                 name.style.backgroundColor = "#ff6666";
-                document.getElementById('nameHelpText').innerText="Enter Name";
+                document.getElementById('nameHelpText').innerText="Enter Name ";
                 name.classList.remove('is-valid');
                 name.classList.add('is-invalid');
+                if(value.toString().length>30)
+                 document.getElementById('nameHelpText').innerText="Name should be less than 30 character.";
+                 
             }
         }
         function pincodeValidate(){
