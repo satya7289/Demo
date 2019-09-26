@@ -91,16 +91,16 @@
                             <small id="nameHelpText" class="form-text text-muted">
                             @error('name') {{ $message }} @enderror
                             </small>
-                            
+
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="email" class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-10">
                             <input class="form-control" name="email" type="email" id="email" placeholder="Enter Email" aria-describedby="emailHelpText" required onkeyup="emailValidate()">
-                            
+
                             <small id="emailHelpText" class="form-text text-muted">
-                                
+                                @error('email') {{ $message }} @enderror
                             </small>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                                   {{ $message }}
                                  @enderror
                             </small>
-                           
+
                         </div>
                     </div>
                     <button type="submit" class="btn btn-success">Submit</button>
@@ -127,7 +127,8 @@
 
     <script>
         function emailValidate(){
-            var patt = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@([a-zA-Z0-9-])+(?:\.[a-zA-Z0-9-]+)*$/);
+            // var patt = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@([a-zA-Z0-9-])+(?:\.[a-zA-Z0-9-]+)*$/);
+            var patt = new RegExp(/^[a-zA-Z0-9.!'*+_`{|}~-]+@([a-zA-Z])+\.[com]+$/);
             var email = document.getElementById('email');
             var value = email.value;
             if(patt.test(value))
@@ -164,7 +165,7 @@
                 name.classList.add('is-invalid');
                 if(value.toString().length>30)
                  document.getElementById('nameHelpText').innerText="Name should be less than 30 character.";
-                 
+
             }
         }
         function pincodeValidate(){
@@ -184,7 +185,7 @@
                 pincode.classList.add('is-invalid');
             }
         }
-        
+
     </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

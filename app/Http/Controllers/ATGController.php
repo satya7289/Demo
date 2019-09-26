@@ -23,7 +23,10 @@ class ATGController extends Controller
     {
         $this->validate($request, [
             'name'=>'required|max:30',
-            'email'=>'required|email',
+            'email'=> array(
+                'required',
+                "regex:/^[a-zA-Z0-9.!'*+_`{|}~-]+@([a-zA-Z])+\.[com]+$/u",
+            ),
             'pincode'=>'required|numeric',
         ]);
         $detail = new Detail();
