@@ -65,15 +65,10 @@ class WebServicesController extends Controller
         return new DetailResources($detail);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Detail $detail) : DetailResources
+   
+    public function destroy(Detail $detail)
     {
-        $detail->delete();
-        return response()->json();
+        $detail->delete(); 
+        return response()->json(); 
     }
 }
