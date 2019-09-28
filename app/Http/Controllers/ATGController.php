@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Detail;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 
 
 class ATGController extends Controller
 {
     public function index()
-    {
+    {        
         return view('welcome');
     }
 
