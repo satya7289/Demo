@@ -18,4 +18,4 @@ use App\Http\Controllers\ATGController;
 //});
 
 Route::resource('/', 'ATGController');
-Route::get('send/','EmailController@sendEmail');
+
