@@ -68,7 +68,7 @@
     <body>
     <script>
         @if(Session::has('flash_message'))
-            @if(Session::get('flash_message')=="Detail Added and Email send Successfully.")
+            @if(Session::get('mail_message')!='')
             alert(" {{Session::get('flash_message')}}")
             @endif
         @endif
@@ -128,7 +128,7 @@
     <script>
         function emailValidate(){
             // var patt = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@([a-zA-Z0-9-])+(?:\.[a-zA-Z0-9-]+)*$/);
-            var patt = new RegExp(/^[a-zA-Z0-9.!'*+_`{|}~-]+@([a-zA-Z])+\.[com]+$/);
+            var patt = new RegExp(/^[a-zA-Z0-9.!'*+_`{|}~-]+@([a-zA-Z])+\.[c][o][m]+$/);
             var email = document.getElementById('email');
             var value = email.value;
             if(patt.test(value))

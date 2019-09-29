@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Detail;
+use App\Traits\Validate;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 use Mail;
 use App\Mail\DetailMail;
@@ -12,8 +12,9 @@ use App\Mail\DetailMail;
 
 class ATGController extends Controller
 {
+    use Validate;
     public function index()
-    {        
+    {
         return view('welcome');
     }
 
@@ -24,41 +25,22 @@ class ATGController extends Controller
 
     public function store(Request $request)
     {
+
         $this->validate($request, [
-            'name'=>'required|max:30',
-            'email'=> array(
-                'required',
-                "regex:/^[a-zA-Z0-9.!'*+_`{|}~-]+@([a-zA-Z])+\.[com]+$/u",
-            ),
-            'pincode'=>'required|numeric',
+           'name'=>$this->name(),
+            'email'=> $this->email(),
+            'pincode'=>$this->pincode(),
         ]);
-        $detail = new Detail();
-        $detail->name = request('name');
-        $detail->email = request('email');
-        $detail->pinCode = request('pincode');
-        $message = '';
-        if(Detail::where('name', $detail->name)->first())
-            $message = 'Name Aready exits.';
-        elseif (Detail::where('email', $detail->email)->first())
-            $message = 'Email Already exits.';
-        elseif (Detail::where('pinCode', $detail->pinCode)->first())
-            $message = 'Pincode Aready exits.';
-        else{
-           
-            Mail::send(new DetailMail($detail->name,$detail->email,$detail->pinCode));
-        
-            if(Mail::failures()){
-                $mailMessage = $detail->email.' Sending Email Failed.';
-                Log::info($mailMessage);
-            }
-            else{
-                $mailMessage = $detail->email.' Message Sending Successfully.';
-                Log::info($mailMessage);
-            }
-            $detail->save();
-            $message = 'Detail Added and Email send Successfully.';
-        }
-        return redirect('/')->with('flash_message', $message);
+
+        $name = request('name');
+        $email = request('email');
+        $pincode = request('pincode');
+        $messages = $this->checkDataSave($name,$email,$pincode);
+
+        return redirect('/')->with([
+                                    'flash_message'=> $messages[1],
+                                    'mail_message' => $messages[2],
+                                    ]);
 
     }
 

@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use App\Detail;
 use App\Http\Resources\DetailResources;
 use App\Http\Resources\DetailResourceCollection;
+use App\Traits\Validate;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Contracts\Routing\ResponseFactory;
-
-
+use Illuminate\Http\Request;
+use Mail;
+use App\Mail\DetailMail;
+use Illuminate\Support\Facades\Log;
 
 class WebServicesController extends Controller
 {
+    use Validate;
     /**
      * Display a listing of the resource.
      *
@@ -31,16 +35,21 @@ class WebServicesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required|max:30',
-            'email'=> array(
-                'required',
-                "regex:/^[a-zA-Z0-9.!'*+_`{|}~-]+@([a-zA-Z])+\.[com]+$/u",
-            ),
-            'pincode'=>'required|numeric',
+            'name'=>$this->name(),
+            'email'=> $this->email(),
+            'pincode'=>$this->pincode()
         ]);
-        // dd($request);
-        $detail = Detail::create($request->all());
-        return new DetailResources($detail);
+            // dd($request->all());
+        $name = request('name');
+        $email = request('email');
+        $pincode = request('pincode');
+        $detail = $this->checkDataSave($name,$email,$pincode);
+        $status = $detail[3];
+        if($status==4)
+            return new DetailResources($detail[0]);
+        else {
+            return ['status'=>0,'message'=>$detail[1]];
+        }
     }
 
     /**
@@ -68,10 +77,10 @@ class WebServicesController extends Controller
         return new DetailResources($detail);
     }
 
-   
+
     public function destroy(Detail $detail)
     {
-        $detail->delete(); 
-        return response()->json(); 
+        $detail->delete();
+        return response()->json();
     }
 }
