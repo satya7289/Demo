@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 
 class WebServicesController extends Controller
 {
-    use Validate;
+    use Validate;       // Add Validate Trait.
     /**
      * Display a listing of the resource.
      *
