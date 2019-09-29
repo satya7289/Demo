@@ -31,9 +31,12 @@ class WebServicesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'  =>'required',
-            'email' =>'required',
-            'pinCode'=>'required',
+            'name'=>'required|max:30',
+            'email'=> array(
+                'required',
+                "regex:/^[a-zA-Z0-9.!'*+_`{|}~-]+@([a-zA-Z])+\.[com]+$/u",
+            ),
+            'pincode'=>'required|numeric',
         ]);
         // dd($request);
         $detail = Detail::create($request->all());
