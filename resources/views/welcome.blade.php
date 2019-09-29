@@ -68,7 +68,7 @@
     <body>
     <script>
         @if(Session::has('flash_message'))
-            @if(Session::get('flash_message')=="Detail Added Successfully")
+            @if(Session::get('flash_message')=="Detail Added and Email send Successfully.")
             alert(" {{Session::get('flash_message')}}")
             @endif
         @endif

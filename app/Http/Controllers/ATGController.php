@@ -6,6 +6,8 @@ use App\Detail;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
+use Mail;
+use App\Mail\DetailMail;
 
 
 class ATGController extends Controller
@@ -42,8 +44,19 @@ class ATGController extends Controller
         elseif (Detail::where('pinCode', $detail->pinCode)->first())
             $message = 'Pincode Aready exits.';
         else{
+           
+            Mail::send(new DetailMail($detail->name,$detail->email,$detail->pinCode));
+        
+            if(Mail::failures()){
+                $mailMessage = $detail->email.' Sending Email Failed.';
+                Log::info($mailMessage);
+            }
+            else{
+                $mailMessage = $detail->email.' Message Sending Successfully.';
+                Log::info($mailMessage);
+            }
             $detail->save();
-            $message = 'Detail Added Successfully';
+            $message = 'Detail Added and Email send Successfully.';
         }
         return redirect('/')->with('flash_message', $message);
 
