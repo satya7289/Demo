@@ -12,7 +12,7 @@ use App\Mail\DetailMail;
 
 class ATGController extends Controller
 {
-    use Validate;
+    use Validate;           // Add Validate Trait.
     public function index()
     {
         return view('welcome');
@@ -27,20 +27,21 @@ class ATGController extends Controller
     {
 
         $this->validate($request, [
-           'name'=>$this->name(),
+           'name'=>$this->name(), 
             'email'=> $this->email(),
             'pincode'=>$this->pincode(),
-        ]);
+        ]);         // using Validate methods name(),email(),pincode().
 
         $name = request('name');
         $email = request('email');
         $pincode = request('pincode');
-        $messages = $this->checkDataSave($name,$email,$pincode);
-
+        $messages = $this->checkDataSave($name,$email,$pincode); // Using Validate Method checkAndSave($name,$email,$pincode);
+                                                                
         return redirect('/')->with([
-                                    'flash_message'=> $messages[1],
+                                    'flash_message'=> $messages[1], 
                                     'mail_message' => $messages[2],
                                     ]);
+                                    // Redirecting to Home Page with flashing messages.
 
     }
 

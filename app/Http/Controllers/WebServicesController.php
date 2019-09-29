@@ -23,7 +23,7 @@ class WebServicesController extends Controller
      */
     public function index(): DetailResourceCollection
     {
-        return new DetailResourceCollection(Detail::paginate());
+        return new DetailResourceCollection(Detail::paginate());    // Using DetailResourcesCollection
     }
 
     /**
@@ -38,17 +38,17 @@ class WebServicesController extends Controller
             'name'=>$this->name(),
             'email'=> $this->email(),
             'pincode'=>$this->pincode()
-        ]);
-            // dd($request->all());
+        ]);      // using Validate methods name(),email(),pincode().
+
         $name = request('name');
         $email = request('email');
         $pincode = request('pincode');
-        $detail = $this->checkDataSave($name,$email,$pincode);
+        $detail = $this->checkDataSave($name,$email,$pincode);  // Using Validate Method checkAndSave($name,$email,$pincode);
         $status = $detail[3];
-        if($status==4)
-            return new DetailResources($detail[0]);
+        if($status==4)      
+            return new DetailResources($detail[0]);     // If status=4 means no Dublicate data enters.
         else {
-            return ['status'=>0,'message'=>$detail[1]];
+            return ['status'=>0,'message'=>$detail[1]];     // otherwise some Dublicate Data enters.
         }
     }
 
@@ -60,7 +60,7 @@ class WebServicesController extends Controller
      */
     public function show(Detail $detail): DetailResources
     {
-        return new DetailResources($detail);
+        return new DetailResources($detail);        // Using DetailResourcesCollection
     }
 
     /**
@@ -72,8 +72,7 @@ class WebServicesController extends Controller
      */
     public function update(Detail $detail, Request $request): DetailResources
     {
-        // dd($request->all(),"ssss");
-        $detail->update($request->all());
+        $detail->update($request->all());        // Using DetailResourcesCollection
         return new DetailResources($detail);
     }
 
@@ -81,6 +80,6 @@ class WebServicesController extends Controller
     public function destroy(Detail $detail)
     {
         $detail->delete();
-        return response()->json();
+        return ['status'=>1,'message'=>'Succesfully Deleted.'];     // Returning Successfully Deleted.  
     }
 }
