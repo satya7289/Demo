@@ -60,6 +60,7 @@ class WebServicesController extends Controller
      */
     public function show(Detail $detail): DetailResources
     {
+        dd($detail,$detail->name);
         return new DetailResources($detail);        // Using DetailResourcesCollection
     }
 
@@ -81,5 +82,45 @@ class WebServicesController extends Controller
     {
         $detail->delete();
         return ['status'=>1,'message'=>'Succesfully Deleted.'];     // Returning Successfully Deleted.  
+    }
+
+    public function search(Request $request)
+    {
+        $message ='';
+        $status = 0;
+        $name = request('name');
+        $email = request('email');
+        $pincode = request('pincode');
+        if($name)
+        {
+            if(Detail::where('name', request('name'))->first())
+             {
+                $status=1;
+                $message = 'Name Aready exits.';
+             }
+        }
+        else if($email)
+        {
+            if(Detail::where('email', $email)->first())
+            {
+               $status=1;
+               $message = 'Email Aready exits.';
+            }
+        }
+        else if($pincode)
+        {
+            if(Detail::where('pinCode', $pincode)->first())
+            {
+               $status=1;
+               $message = 'Pincode Aready exits.';
+            }
+        }
+        else {
+            $status=0;
+            $message = 'Invalid query.';
+        }
+
+        return ['status'=>$status,'message'=>$message];
+       
     }
 }

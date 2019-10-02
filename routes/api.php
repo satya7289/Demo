@@ -14,3 +14,4 @@ use Illuminate\Http\Request;
 */
 
 Route::apiresource('/detail','WebServicesController');
+Route::get('/search','WebServicesController@search')->name('serach');
