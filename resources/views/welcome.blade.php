@@ -159,6 +159,7 @@
                         var response = JSON.parse(this.responseText);
                         if(response.status!=0){
                             message.innerText=response.message;
+                            console.log(response.message);
                         }
                     }
                 }
@@ -197,6 +198,7 @@
                         var response = JSON.parse(this.responseText);
                         if(response.status!=0){
                             message.innerText=response.message;
+                            console.log(response.message);
                         }
                     }
                 }
@@ -231,6 +233,7 @@
                         var response = JSON.parse(this.responseText);
                         if(response.status!=0){
                             message.innerText=response.message;
+                            console.log(response.message);
                         }
                     }
                 }
