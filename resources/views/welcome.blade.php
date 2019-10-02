@@ -143,7 +143,7 @@
             }
             else{
                 email.style.backgroundColor = "#ff6666";
-                message.innerText="Enter Valid email";
+                message.innerText="Enter Valid email ";
                 email.classList.remove('is-valid');
                 email.classList.add('is-invalid');
 
@@ -160,6 +160,9 @@
                         if(response.status!=0){
                             message.innerText=response.message;
                             console.log(response.message);
+                            email.classList.remove('is-valid');
+                            email.classList.add('is-invalid');
+                            email.style.backgroundColor = "#ff6666";
                         }
                     }
                 }
@@ -199,6 +202,9 @@
                         if(response.status!=0){
                             message.innerText=response.message;
                             console.log(response.message);
+                            name.classList.remove('is-valid');
+                            name.classList.add('is-invalid');
+                            name.style.backgroundColor = "#ff6666";
                         }
                     }
                 }
@@ -234,6 +240,9 @@
                         if(response.status!=0){
                             message.innerText=response.message;
                             console.log(response.message);
+                            pincode.classList.remove('is-valid');
+                            pincode.classList.add('is-invalid');
+                            pincode.style.backgroundColor = "#ff6666";
                         }
                     }
                 }
