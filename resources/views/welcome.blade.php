@@ -4,6 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <meta name="_token" content="{{csrf_token()}}" />
+
         <title>Demo</title>
 
         <!-- Fonts -->
@@ -11,62 +13,15 @@
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
+        <!-- Jquery -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
-            .full-height {
-                height: 100vh;
-            }
+       <!-- Styles -->
+        <link href="{{ asset('css/welcome.css') }}" rel='stylesheet' type='text/css' />
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
     </head>
     <body>
-      
+
     <script>
         @if(Session::has('flash_message'))
             @if(Session::get('mail_message')!='')
@@ -78,14 +33,14 @@
         <div class="flex-center position-ref full-height">
 
             <div class="content">
-                <div >
+                <div id="error">
                 @if(Session::has('flash_message'))
                     {{Session::get('flash_message')}}
                 @endif
                 </div>
-                <form method="POST" action="/" enctype="multipart/form-data" class="needs-validation">
-                    @csrf
-                    <div class="form-group row">
+                <form method="POST" action="/" enctype="multipart/form-data">
+                    {{-- @csrf --}}
+                    <div class="form-group row" id='form'>
                         <label for="name" class="col-sm-2 col-form-label">Name:</label>
                         <div class="col-sm-10">
                             <input class="form-control" name="name" id="name" type="text" placeholder="Enter Name" aria-describedby="nameHelpText" onkeyup="nameValidate(event)"  required>
@@ -118,144 +73,52 @@
 
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="submit" id="submit" class="btn btn-success">Submit</button>
                 </form>
             </div>
         </div>
 
 
-
+    {{-- JavaScript --}}
+    <script src="{{ asset('js/welcome.js') }}"></script>
 
     <script>
-        function emailValidate(){
-            // var patt = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@([a-zA-Z0-9-])+(?:\.[a-zA-Z0-9-]+)*$/);
-            var patt = new RegExp(/^[a-zA-Z0-9.!'*+_`{|}~-]+@([a-zA-Z])+\.[c][o][m]+$/);
-            var email = document.getElementById('email');
-            var message = document.getElementById('emailHelpText');
-            var value = email.value;
-            if(patt.test(value))
-            {
-                message.innerText=""
-                email.style.backgroundColor = "#00e673";
-                email.classList.remove('is-invalid');
-                email.classList.add('is-valid');
-
-            }
-            else{
-                email.style.backgroundColor = "#ff6666";
-                message.innerText="Enter Valid email ";
-                email.classList.remove('is-valid');
-                email.classList.add('is-invalid');
-
-            }
-            var valid = email.classList.contains('is-valid');
-            if(valid)
-            {
-                var xhr = new XMLHttpRequest;
-                xhr.open('GET',window.location.href+'api/search?email='+email.value,true);
-                //console.log(xhr);
-                xhr.onload = function(){
-                    if(this.status==200){
-                        var response = JSON.parse(this.responseText);
-                        if(response.status!=0){
-                            message.innerText=response.message;
-                            console.log(response.message);
-                            email.classList.remove('is-valid');
-                            email.classList.add('is-invalid');
-                            email.style.backgroundColor = "#ff6666";
-                        }
+        jQuery(document).ready(function(){
+           
+            jQuery('#submit').click(function(e){
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                     }
-                }
-                xhr.send();
-            }
-        }
-        function nameValidate(e){
-            var name = document.getElementById('name');
-            var patt = new RegExp("^[a-zA-Z][a-zA-Z0-9 ]*$");
-            var value = name.value;
-            var message = document.getElementById('nameHelpText');
-            if(value.toString().length>0 && value.toString().length<30 && patt.test(value))
-            {
-                message.innerText=""
-                name.style.backgroundColor = "#00e673";
-                name.classList.remove('is-invalid');
-                name.classList.add('is-valid');
-            }
-            else{
-                name.style.backgroundColor = "#ff6666";
-                message.innerText="Enter Name ";
-                name.classList.remove('is-valid');
-                name.classList.add('is-invalid');
-                if(value.toString().length>30)
-                 document.getElementById('nameHelpText').innerText="Name should be less than 30 character.";
-
-            }
-            var valid = name.classList.contains('is-valid');
-            if(valid)
-            {
-                var xhr = new XMLHttpRequest;
-                xhr.open('GET',window.location.href+'api/search?name='+name.value,true);
-                //console.log(xhr);
-                xhr.onload = function(){
-                    if(this.status==200){
-                        var response = JSON.parse(this.responseText);
-                        if(response.status!=0){
-                            message.innerText=response.message;
-                            console.log(response.message);
-                            name.classList.remove('is-valid');
-                            name.classList.add('is-invalid');
-                            name.style.backgroundColor = "#ff6666";
+                });
+                if(nameValidate() && emailValidate() && pincodeValidate()){
+                    jQuery.ajax({
+                        url: "/api/detail",
+                        method: 'post',
+                        data: {
+                            name: jQuery('#name').val(),
+                            email: jQuery('#email').val(),
+                            pincode: jQuery('#pincode').val()
+                        },
+                        success: function(result){
+                            if(result.message){
+                                jQuery('#error').html(result.message);
+                            }
+                            else{
+                                alert("Successfully added.");                             
+                            }
                         }
-                    }
+                    });
                 }
-                xhr.send();
-            }
-        }
-        function pincodeValidate(){
-            var pincode = document.getElementById('pincode');
-            var value   = pincode.value;
-            var message =document.getElementById('pincodeHelpText');
-            if(value.length==6 && value>0)
-            {
-                message.innerText=""
-                pincode.style.backgroundColor = "#00e673";
-                pincode.classList.remove('is-invalid');
-                pincode.classList.add('is-valid');
-            }
-            else{
-                pincode.style.backgroundColor = "#ff6666";
-                message.innerText="Enter Pincode of 6 digit.";
-                pincode.classList.remove('is-valid');
-                pincode.classList.add('is-invalid');
-            }
-            var valid = pincode.classList.contains('is-valid');
-            if(valid)
-            {
-                var xhr = new XMLHttpRequest;
-                xhr.open('GET',window.location.href+'api/search?pincode='+pincode.value,true);
-                //console.log(xhr);
-                xhr.onload = function(){
-                    if(this.status==200){
-                        var response = JSON.parse(this.responseText);
-                        if(response.status!=0){
-                            message.innerText=response.message;
-                            console.log(response.message);
-                            pincode.classList.remove('is-valid');
-                            pincode.classList.add('is-invalid');
-                            pincode.style.backgroundColor = "#ff6666";
-                        }
-                    }
-                }
-                xhr.send();
-            }
-        }
-
+            });
+        });
     </script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    {{-- jquery cdn --}}
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous">
+    </script>
     </body>
-
-
-
 </html>
+

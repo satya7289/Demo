@@ -83,7 +83,7 @@
                 @endif
                 </div>
                 <form method="GET" action="/search" enctype="multipart/form-data" class="needs-validation">
-                 
+                 @csrf
                     <div class="form-group row">
                         <label for="name" class="col-sm-2 col-form-label">Name:</label>
                         <div class="col-sm-10">

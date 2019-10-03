@@ -48,7 +48,7 @@ class WebServicesController extends Controller
         if($status==4)      
             return new DetailResources($detail[0]);     // If status=4 means no Dublicate data enters.
         else {
-            return ['status'=>0,'message'=>$detail[1]];     // otherwise some Dublicate Data enters.
+            return ['status'=>0,'message'=>$detail[1],'emailstatus'=>$detail[2]];     // otherwise some Dublicate Data enters.
         }
     }
 
