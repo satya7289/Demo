@@ -213,6 +213,15 @@ function pincodeValidate(){
 
 
 function resetForm() {
-  document.getElementById("myForm").reset();
+  document.getElementById("Form").reset();
+  var email     = document.getElementById('email');
+  var name      = document.getElementById('name');
+  var pincode   = document.getElementById('pincode');
+  name.classList.remove('is-valid','is-invalid');
+  name.style.backgroundColor = 'transparent';
+  email.classList.remove('is-valid','is-invalid')
+  email.style.backgroundColor = 'transparent';
+  pincode.classList.remove('is-valid','is-invalid');
+  pincode.style.backgroundColor = 'transparent';
 }
 

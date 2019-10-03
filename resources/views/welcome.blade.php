@@ -38,7 +38,7 @@
                     {{Session::get('flash_message')}}
                 @endif
                 </div>
-                <form method="POST" action="/" enctype="multipart/form-data">
+                <form method="POST" action="/" enctype="multipart/form-data" id="Form">
                     {{-- @csrf --}}
                     <div class="form-group row" id='form'>
                         <label for="name" class="col-sm-2 col-form-label">Name:</label>
@@ -86,6 +86,7 @@
         jQuery(document).ready(function(){
            
             jQuery('#submit').click(function(e){
+                jQuery("button").attr("disabled", true);
                 e.preventDefault();
                 $.ajaxSetup({
                     headers: {
@@ -106,7 +107,10 @@
                                 jQuery('#error').html(result.message);
                             }
                             else{
-                                alert("Successfully added.");                             
+                                alert("Successfully added.");  
+                                resetForm();  
+                                jQuery("button").attr("disabled", false);
+                                jQuery('#error').html("Successfully added. Add another one.")                         
                             }
                         }
                     });
